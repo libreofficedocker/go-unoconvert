@@ -1,2 +1,2 @@
 # go-unoconvert
-A Go wrapper implementation for unoserver
+A Go wrapper implementation for unoconvert
