@@ -46,6 +46,18 @@ func CreateContext(ctx context.Context, infile string, outfile string, opts ...U
 	return unoconvert.CreateContext(ctx, infile, outfile, opts...)
 }
 
+func New() *Unoconvert {
+	return &Unoserver{}
+}
+
+func Default() *Unoconvert {
+	return &Unoserver{
+		Host:       "127.0.0.1",
+		Port:       "2002",
+		Executable: "unoconvert",
+	}
+}
+
 type Unoconvert struct {
 	Interface  string
 	Port       string
