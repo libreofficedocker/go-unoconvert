@@ -1,3 +1,3 @@
-module github.com/libreoffice-docker/go-unoconvert
+module github.com/libreofficedocker/go-unoconvert
 
 go 1.20
