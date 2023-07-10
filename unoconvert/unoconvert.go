@@ -16,42 +16,12 @@ var (
 	ContextTimeout = DefaultContextTimeout
 )
 
-var unoconvert = &Unoconvert{
-	Interface:  "127.0.0.1",
-	Port:       "2002",
-	Executable: "unoconvert",
-}
-
-func SetExecutable(executable string) {
-	unoconvert.SetExecutable(executable)
-}
-
-func SetInterface(interf string) {
-	unoconvert.SetInterface(interf)
-}
-
-func SetPort(port string) {
-	unoconvert.SetPort(port)
-}
-
-func SetContextTimeout(timeout time.Duration) {
-	unoconvert.SetContextTimeout(timeout)
-}
-
-func Create(infile string, outfile string, opts ...UnoconvertOption) *exec.Cmd {
-	return unoconvert.Create(infile, outfile, opts...)
-}
-
-func CreateContext(ctx context.Context, infile string, outfile string, opts ...UnoconvertOption) *exec.Cmd {
-	return unoconvert.CreateContext(ctx, infile, outfile, opts...)
-}
-
 func New() *Unoconvert {
-	return &Unoserver{}
+	return &Unoconvert{}
 }
 
 func Default() *Unoconvert {
-	return &Unoserver{
+	return &Unoconvert{
 		Host:       "127.0.0.1",
 		Port:       "2002",
 		Executable: "unoconvert",
@@ -59,7 +29,7 @@ func Default() *Unoconvert {
 }
 
 type Unoconvert struct {
-	Interface  string
+	Host       string
 	Port       string
 	Executable string
 }
@@ -68,8 +38,8 @@ func (u *Unoconvert) SetExecutable(executable string) {
 	u.Executable = executable
 }
 
-func (u *Unoconvert) SetInterface(interf string) {
-	u.Interface = interf
+func (u *Unoconvert) SetHost(interf string) {
+	u.Host = interf
 }
 
 func (u *Unoconvert) SetPort(port string) {
@@ -84,7 +54,7 @@ func (u *Unoconvert) Create(infile string, outfile string, opts ...UnoconvertOpt
 	var args = []string{}
 
 	connections := []string{
-		fmt.Sprintf("--interface=%s", u.Interface),
+		fmt.Sprintf("--interface=%s", u.Host),
 		fmt.Sprintf("--port=%s", u.Port),
 	}
 
@@ -108,7 +78,7 @@ func (u *Unoconvert) CreateContext(ctx context.Context, infile string, outfile s
 	var args = []string{}
 
 	connections := []string{
-		fmt.Sprintf("--interface=%s", u.Interface),
+		fmt.Sprintf("--interface=%s", u.Host),
 		fmt.Sprintf("--port=%s", u.Port),
 	}
 
