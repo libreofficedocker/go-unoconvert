@@ -3,7 +3,6 @@ package unoconvert
 import (
 	"context"
 	"fmt"
-	"log"
 	"os/exec"
 	"time"
 )
@@ -50,7 +49,7 @@ func (u *Unoconvert) SetContextTimeout(timeout time.Duration) {
 	ContextTimeout = timeout
 }
 
-func (u *Unoconvert) Create(infile string, outfile string, opts ...UnoconvertOption) *exec.Cmd {
+func (u *Unoconvert) Command(infile string, outfile string, opts ...UnoconvertOption) *exec.Cmd {
 	var args = []string{}
 
 	connections := []string{
@@ -66,15 +65,11 @@ func (u *Unoconvert) Create(infile string, outfile string, opts ...UnoconvertOpt
 		args = append(args, fmt.Sprintf("%s=%s", opt.Key, opt.Value))
 	}
 
-	log.Printf("Command: %s %s", u.Executable, args)
 	cmd := exec.Command(u.Executable, args...)
 	return cmd
 }
 
-func (u *Unoconvert) CreateContext(ctx context.Context, infile string, outfile string, opts ...UnoconvertOption) *exec.Cmd {
-	ctx, cancel := context.WithTimeout(ctx, ContextTimeout)
-	defer cancel()
-
+func (u *Unoconvert) CommandContext(ctx context.Context, infile string, outfile string, opts ...UnoconvertOption) *exec.Cmd {
 	var args = []string{}
 
 	connections := []string{
@@ -90,7 +85,6 @@ func (u *Unoconvert) CreateContext(ctx context.Context, infile string, outfile s
 		args = append(args, fmt.Sprintf("%s=%s", opt.Key, opt.Value))
 	}
 
-	log.Printf("Command: %s %s", u.Executable, args)
 	cmd := exec.CommandContext(ctx, u.Executable, args...)
 	return cmd
 }
